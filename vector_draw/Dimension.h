@@ -11,6 +11,8 @@ namespace drawing {
 		Dimension(const DrawInfo &param);
 		int draw(PDF &pdf) override;
 		void get_canvas_size(int &x, int &y);
+		int get_stride_x();
+		int get_stride_y();
 	private:
 		int width_{};
 		int dimensions_{ dim };
@@ -20,6 +22,43 @@ namespace drawing {
 	Dimension<d>::Dimension(const DrawInfo &param)
 		: DrawItem { param }
 	{
+	}
+
+	template<int d>
+	int Dimension<d>::get_stride_x() {
+		if constexpr (d > 2) {
+			const int dim{ d };
+			const int xmask{ static_cast<int>(dim % 2 != 0) };
+			int repeats{ 1 << parameter_.bits_per_dimension };
+
+			if (!xmask) {
+				repeats = 1;
+			}
+			const int stride{ Dimension<d - 1>{parameter_}.get_stride_x() };
+			return repeats * stride;
+		}
+		else {
+			return parameter_.width;
+		}
+	}
+
+	template<int d>
+	int Dimension<d>::get_stride_y() {
+		if constexpr (d > 2) {
+			const int dim{ d };
+			const int ymask{ static_cast<int>(dim % 2 == 0) };
+			int repeats{ 1 << parameter_.bits_per_dimension };
+
+			if (!ymask) {
+				repeats = 1;
+			}
+
+			const int stride{ Dimension<d - 1>{parameter_}.get_stride_y() };
+			return repeats * stride;
+		}
+		else {
+			return parameter_.width;
+		}
 	}
 
 	template<int d>
@@ -63,8 +102,8 @@ namespace drawing {
 			const int dim_count{ d };
 			const int xmask{ static_cast<int>(dim_count % 2 != 0) };
 			const int ymask{ static_cast<int>(dim_count % 2 == 0) };
-			const int xstep{ xmask * parameter_.width };
-			const int ystep{ ymask * parameter_.width };
+			int xstep{};
+			int ystep{};
 
 			for (int dw{ 0 }; dw < repeats; ++dw) {
 				draw_info.x = xstart;
@@ -73,6 +112,10 @@ namespace drawing {
 				auto it{ std::end(dims) };
 				it--;
 				one_count += it->draw(pdf);
+				xstep = it->get_stride_x();
+				ystep = it->get_stride_y();
+				xstep *= xmask;
+				ystep *= ymask;
 				xstart += xstep;
 				ystart += ystep;
 			}

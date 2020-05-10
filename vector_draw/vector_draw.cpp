@@ -12,17 +12,19 @@ int main()
 		
 	pdf.setFont(drawing::PDF::HELVETICA, 6);
 	pdf.setLineWidth(1);
+	const int dim_count{ 6 };
 
-	drawing::DrawInfo draw_info{ 50,50,50,50,dim2Dwidth,dim2Dwidth,bits_per_dimension,4 };
-	drawing::Dimension<4> dim{ draw_info };
+	drawing::DrawInfo draw_info{ 50,50,50,50,dim2Dwidth,dim2Dwidth,bits_per_dimension,dim_count };
+	drawing::Dimension<dim_count> dim{ draw_info };
 	int canvas_width{};
 	int canvas_height{};
 
 	dim.get_canvas_size(canvas_width, canvas_height);
+	
 	pdf.SetWidth(canvas_width);
 	pdf.SetHeight(canvas_height);
 
-	dim.draw(pdf);
+	int one_count{ dim.draw(pdf) };
 	
 	//drawing::Dimension4D dim4d{ draw_info };
 	//int one_count{ dim4d.draw(pdf) };
