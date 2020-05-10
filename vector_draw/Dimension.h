@@ -10,6 +10,7 @@ namespace drawing {
 		Dimension() = default;
 		Dimension(const DrawInfo &param);
 		int draw(PDF &pdf) override;
+		void get_canvas_size(int &x, int &y);
 	private:
 		int width_{};
 		int dimensions_{ dim };
@@ -19,6 +20,22 @@ namespace drawing {
 	Dimension<d>::Dimension(const DrawInfo &param)
 		: DrawItem { param }
 	{
+	}
+
+	template<int d>
+	void Dimension<d>::get_canvas_size(int &x, int &y) {
+		x = parameter_.width;
+		y = parameter_.width;
+		const int repeats{ 1 << parameter_.bits_per_dimension };
+		const int dim_count{ d };
+
+		for (int dw{ 3 }; dw <= dim_count; ++dw) {
+			const int xmask{ static_cast<int>(dw % 2 != 0) };
+			const int ymask{ static_cast<int>(dw % 2 == 0) };
+
+			x *= (xmask * repeats);
+			y *= (ymask * repeats);
+		}
 	}
 
 	template<int d>
