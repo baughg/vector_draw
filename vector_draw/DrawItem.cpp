@@ -10,26 +10,28 @@ DrawItem::DrawItem(const DrawInfo &param)
 
 uint64_t DrawItem::get_reduced_dimension(const int &x, const int &y)
 {
-	const int pixels_per_step{ parameter_.width >> parameter_.bits_per_dimension };
-	int gx{ x - parameter_.origin_x };
-	int gy{ y - parameter_.origin_y };
-	int X{ (gx % parameter_.width) / pixels_per_step };
-	int Y{ (gy % parameter_.width) / pixels_per_step };
-	int Z{ gx / parameter_.width };
-	int T{ gy / parameter_.width };
-
 	uint64_t bucket{};
+	const int xr{ x - parameter_.origin_x };
+	const int yr{ x - parameter_.origin_y };
 
-	X += Z;
-	Y += T;
-	int XeqY{ X ^ Y };
+	std::vector<int> dim_sum(parameter_.sub_dimension_buckets);
 
-	if (X == Y) {
-		int add{ X & 0x1 };
-		X += add;
-		add = (~add & 0x1);
-		Y += add;
+	for (int d{ 0 }; d < parameter_.dimensions; ++d) {
+		DimensionInfo &dim_info = parameter_.dimension_stride[d];
+
+		int D{};
+
+		if (dim_info.use_x) {
+			D = xr % dim_info.mod_x;
+			D /= dim_info.stride_x;
+		}
+		else {
+			D = yr % dim_info.mod_y;
+			D /= dim_info.stride_y;
+		}
+
+		dim_sum[d % parameter_.sub_dimension_buckets] += D;
 	}
-	bucket |= static_cast<uint64_t>(Y > X);
+
 	return bucket;
 }

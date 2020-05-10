@@ -20,6 +20,7 @@ namespace drawing {
 		int height{};
 		int bits_per_dimension{ 2 };
 		int dimensions{ 2 };
+		int sub_dimension_buckets{ 2 };
 		std::vector<DimensionInfo> dimension_stride;
 	}DrawInfo;
 
