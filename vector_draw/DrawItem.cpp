@@ -1,4 +1,5 @@
 #include "DrawItem.h"
+#include <algorithm>
 
 using namespace drawing;
 
@@ -21,7 +22,14 @@ uint64_t DrawItem::get_reduced_dimension(const int &x, const int &y)
 
 	X += Z;
 	Y += T;
+	int XeqY{ X ^ Y };
 
+	if (X == Y) {
+		int add{ X & 0x1 };
+		X += add;
+		add = (~add & 0x1);
+		Y += add;
+	}
 	bucket |= static_cast<uint64_t>(Y > X);
 	return bucket;
 }

@@ -7,7 +7,7 @@ int main()
 {
 	drawing::PDF pdf;
 	const int dim2Dwidth{ 256 };
-	const int bits_per_dimension{ 4 };
+	const int bits_per_dimension{ 3 };
 
 	const uint32_t canvasSize{ (dim2Dwidth << bits_per_dimension) + 100 };
 	pdf.SetWidth(canvasSize);
