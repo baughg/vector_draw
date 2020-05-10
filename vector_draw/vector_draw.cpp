@@ -16,6 +16,7 @@ int main()
 
 	drawing::DrawInfo draw_info{ 50,50,50,50,dim2Dwidth,dim2Dwidth,bits_per_dimension,dim_count };
 	drawing::Dimension<dim_count> dim{ draw_info };
+	dim.set_dimension_stride();
 	int canvas_width{};
 	int canvas_height{};
 
