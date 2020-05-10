@@ -9,15 +9,19 @@ int main()
 	drawing::PDF pdf;
 	const int dim2Dwidth{ 256 };
 	const int bits_per_dimension{ 2 };
-
-	const uint32_t canvasSize{ (dim2Dwidth << bits_per_dimension) + 100 };
-	pdf.SetWidth(canvasSize);
-	pdf.SetHeight(canvasSize);
+		
 	pdf.setFont(drawing::PDF::HELVETICA, 6);
 	pdf.setLineWidth(1);
 
 	drawing::DrawInfo draw_info{ 50,50,50,50,dim2Dwidth,dim2Dwidth,bits_per_dimension,4 };
 	drawing::Dimension<4> dim{ draw_info };
+	int canvas_width{};
+	int canvas_height{};
+
+	dim.get_canvas_size(canvas_width, canvas_height);
+	pdf.SetWidth(canvas_width);
+	pdf.SetHeight(canvas_height);
+
 	dim.draw(pdf);
 	
 	//drawing::Dimension4D dim4d{ draw_info };

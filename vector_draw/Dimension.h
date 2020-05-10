@@ -33,8 +33,13 @@ namespace drawing {
 			const int xmask{ static_cast<int>(dw % 2 != 0) };
 			const int ymask{ static_cast<int>(dw % 2 == 0) };
 
-			x *= (xmask * repeats);
-			y *= (ymask * repeats);
+			if (xmask) {
+				x *= repeats;
+			}
+
+			if (ymask) {
+				y *= repeats;
+			}
 		}
 	}
 
