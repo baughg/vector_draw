@@ -13,6 +13,7 @@ namespace drawing {
 		void get_canvas_size(int &x, int &y);
 		int get_stride_x();
 		int get_stride_y();
+		void set_dimension_stride();
 	private:
 		int width_{};
 		int dimensions_{ dim };
@@ -58,6 +59,30 @@ namespace drawing {
 		}
 		else {
 			return parameter_.width;
+		}
+	}
+
+	template<int d>
+	void Dimension<d>::set_dimension_stride() {
+		const int dim_count{ d };
+		parameter_.dimension_stride.resize(dim_count);
+		const int repeats{ 1 << parameter_.bits_per_dimension };
+
+		parameter_.dimension_stride[0].mod_x = parameter_.width;
+		parameter_.dimension_stride[0].mod_y = parameter_.width;
+		parameter_.dimension_stride[0].stride_x = parameter_.width >> parameter_.bits_per_dimension;
+		parameter_.dimension_stride[0].stride_y = parameter_.dimension_stride[0].stride_x;
+		parameter_.dimension_stride[0].use_x = 1;
+
+		parameter_.dimension_stride[1] = parameter_.dimension_stride[0];
+		parameter_.dimension_stride[1].use_x = 0;
+
+		for (int dw{ 2 }; dw < dim_count; ++dw) {
+			parameter_.dimension_stride[dw] = parameter_.dimension_stride[dw - 2];
+			parameter_.dimension_stride[dw].mod_x *= repeats;
+			parameter_.dimension_stride[dw].mod_y *= repeats;
+			parameter_.dimension_stride[dw].stride_x *= repeats;
+			parameter_.dimension_stride[dw].stride_y *= repeats;
 		}
 	}
 
