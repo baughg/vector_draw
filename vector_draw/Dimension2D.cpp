@@ -10,7 +10,7 @@ Dimension2D::Dimension2D(const DrawInfo &param)
 
 int Dimension2D::Draw(PDF &pdf)
 {
-	const int log2Points{ 2 };
+	const int log2Points{ parameter_.bits_per_dimension };
 
 	const int x{ parameter_.x };
 	const int y{ parameter_.y };	

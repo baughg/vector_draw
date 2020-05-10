@@ -10,17 +10,19 @@ Dimension3D::Dimension3D(const DrawInfo &param)
 }
 int Dimension3D::Draw(PDF &pdf) {
 	std::vector<drawing::Dimension2D> dims;
-	dims.reserve(256);
-	int xstart{ parameter_.x };
-	int ystart{ parameter_.y };
-	const int dim2Dwidth{ parameter_.width >> 8 };
+	const int bits_per_dimension{ parameter_.bits_per_dimension };
+	const int repeats{ 1 << bits_per_dimension };
+	dims.reserve(repeats);
+	int xstart{ parameter_.x };	
+	DrawInfo draw_info{ parameter_ };
 
-	for (int d{ 0 }; d < 256; ++d) {
-		dims.emplace_back(drawing::Dimension2D{ drawing::DrawInfo{xstart,ystart,dim2Dwidth,dim2Dwidth} });
+	for (int d{ 0 }; d < repeats; ++d) {
+		draw_info.x = xstart;
+		dims.emplace_back(drawing::Dimension2D{	drawing::DrawInfo{draw_info} });
 		auto it{ std::end(dims) };
 		it--;
 		it->Draw(pdf);
-		xstart += dim2Dwidth;
+		xstart += parameter_.width;
 	}
 
 	return parameter_.width;

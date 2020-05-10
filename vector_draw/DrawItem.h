@@ -3,10 +3,13 @@
 
 namespace drawing {
 	typedef struct {
+		int origin_x{};
+		int origin_y{};
 		int x{};
 		int y{};
 		int width{};
 		int height{};
+		int bits_per_dimension{ 2 };
 	}DrawInfo;
 
 	class DrawItem
