@@ -41,6 +41,12 @@ namespace drawing {
 				y *= repeats;
 			}
 		}
+
+		const int border_x{ parameter_.origin_x };
+		const int border_y{ parameter_.origin_y };
+
+		x += (border_x << 1);
+		y += (border_y << 1);
 	}
 
 	template<int d>
