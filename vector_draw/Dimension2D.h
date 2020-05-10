@@ -7,7 +7,7 @@ namespace drawing {
 	public:
 		Dimension2D() = default;
 		Dimension2D(const DrawInfo &param);
-		int Draw(PDF &pdf) override;
+		int draw(PDF &pdf) override;
 	private:
 		int width_{};
 	};

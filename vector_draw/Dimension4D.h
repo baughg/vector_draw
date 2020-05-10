@@ -8,7 +8,7 @@ namespace drawing {
 	public:
 		Dimension4D() = default;
 		Dimension4D(const DrawInfo &param);
-		int Draw(PDF &pdf) override;
+		int draw(PDF &pdf) override;
 	};
 }
 

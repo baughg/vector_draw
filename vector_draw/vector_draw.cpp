@@ -7,7 +7,7 @@ int main()
 {
 	drawing::PDF pdf;
 	const int dim2Dwidth{ 256 };
-	const int bits_per_dimension{ 3 };
+	const int bits_per_dimension{ 4 };
 
 	const uint32_t canvasSize{ (dim2Dwidth << bits_per_dimension) + 100 };
 	pdf.SetWidth(canvasSize);
@@ -15,8 +15,10 @@ int main()
 	pdf.setFont(drawing::PDF::HELVETICA, 6);
 	
 	pdf.setLineWidth(1);
-	drawing::Dimension4D dim4d{ drawing::DrawInfo{50,50,50,50,dim2Dwidth,dim2Dwidth,bits_per_dimension} };
-	dim4d.Draw(pdf);
+	drawing::Dimension4D dim4d{ 
+		drawing::DrawInfo{50,50,50,50,dim2Dwidth,dim2Dwidth,bits_per_dimension,4} };
+	int one_count{ dim4d.draw(pdf) };
+	const int points{ 1 << (bits_per_dimension << 2) };
 	std::string outputFilename {"draw.pdf"};
 	std::string errMsg{};
 

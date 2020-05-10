@@ -7,7 +7,7 @@ Dimension4D::Dimension4D(const DrawInfo &param)
 	: DrawItem {param}
 {
 }
-int Dimension4D::Draw(PDF &pdf)
+int Dimension4D::draw(PDF &pdf)
 {
 	std::vector<drawing::Dimension3D> dims;
 	const int bits_per_dimension{ parameter_.bits_per_dimension };
@@ -17,15 +17,16 @@ int Dimension4D::Draw(PDF &pdf)
 	const int ystep{ parameter_.width};
 
 	DrawInfo draw_info{ parameter_ };
+	int one_count{};
 
 	for (int d{ 0 }; d < repeats; ++d) {
 		draw_info.y = ystart;
 		dims.emplace_back(drawing::Dimension3D{ drawing::DrawInfo{ draw_info} });
 		auto it{ std::end(dims) };
 		it--;
-		it->Draw(pdf);
+		one_count += it->draw(pdf);
 		ystart += ystep;
 	}
 
-	return parameter_.width;
+	return one_count;
 }

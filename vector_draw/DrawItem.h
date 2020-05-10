@@ -10,6 +10,7 @@ namespace drawing {
 		int width{};
 		int height{};
 		int bits_per_dimension{ 2 };
+		int dimensions{ 2 };
 	}DrawInfo;
 
 	class DrawItem
@@ -17,8 +18,9 @@ namespace drawing {
 	public:
 		DrawItem() = default;
 		DrawItem(const DrawInfo &pos);
-		virtual int Draw(PDF &pdf) = 0;
+		virtual int draw(PDF &pdf) = 0;
 	protected:
+		uint64_t get_reduced_dimension(const int &x, const int &y);
 		DrawInfo parameter_{};
 	};
 }
