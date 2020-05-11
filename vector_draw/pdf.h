@@ -13,9 +13,10 @@ using std::vector;
 namespace drawing {
 	struct RGB
 	{
-		unsigned char mRed;
-		unsigned char mGreen;
-		unsigned char mBlue;
+		unsigned char mRed{};
+		unsigned char mGreen{};
+		unsigned char mBlue{};
+		RGB() = default;
 
 		RGB(
 			unsigned char red,

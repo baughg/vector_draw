@@ -64,6 +64,46 @@ namespace drawing {
 
 	template<int d>
 	void Dimension<d>::set_dimension_stride() {
+		const int colours{ parameter_.sub_dimension_buckets };
+		parameter_.bucket_colours.resize(colours);
+		std::vector<RGB> anchor_colours{ RGB{255U,0U,0U}, RGB{0U,255U,0U} ,RGB{0U,0U,255U} };
+		
+		std::vector<RGB> anchor_colour_new{ anchor_colours };
+
+		for (int a{}; a < 3; ++a) {
+			int red{ anchor_colours[a].mRed + anchor_colours[(a + 1) % 3].mRed };
+			int green{ anchor_colours[a].mGreen + anchor_colours[(a + 1) % 3].mGreen };
+			int blue{ anchor_colours[a].mBlue + anchor_colours[(a + 1) % 3].mBlue };
+			red >>= 1; green >>= 1; blue >>= 1;
+
+			anchor_colour_new[a].mRed = static_cast<unsigned char>(red);
+			anchor_colour_new[a].mGreen = static_cast<unsigned char>(green);
+			anchor_colour_new[a].mBlue = static_cast<unsigned char>(blue);
+		}
+
+		anchor_colours = std::move(anchor_colour_new);
+
+		for (int c{}; c < colours; ++c) {
+			
+			parameter_.bucket_colours[c] = anchor_colours[c % 3];
+			
+			if (((c+1) % 3) == 0) {
+				std::vector<RGB> anchor_colour_new{ anchor_colours };
+
+				for (int a{}; a < 3; ++a) {
+					int red{ anchor_colours[a].mRed + anchor_colours[(a + 1) % 3].mRed };
+					int green{ anchor_colours[a].mGreen + anchor_colours[(a + 1) % 3].mGreen };
+					int blue{ anchor_colours[a].mBlue + anchor_colours[(a + 1) % 3].mBlue };
+					red >>= 1; green >>= 1; blue >>= 1;
+
+					anchor_colour_new[a].mRed = static_cast<unsigned char>(red);
+					anchor_colour_new[a].mGreen = static_cast<unsigned char>(green);
+					anchor_colour_new[a].mBlue = static_cast<unsigned char>(blue);
+				}
+
+				anchor_colours = std::move(anchor_colour_new);
+			}
+		}
 		const int dim_count{ d };
 		parameter_.dimension_stride.resize(dim_count);
 		const int repeats{ 1 << parameter_.bits_per_dimension };

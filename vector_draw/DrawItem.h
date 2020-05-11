@@ -22,6 +22,7 @@ namespace drawing {
 		int dimensions{ 2 };
 		int sub_dimension_buckets{ 2 };
 		std::vector<DimensionInfo> dimension_stride;
+		std::vector<RGB> bucket_colours;
 	}DrawInfo;
 
 	class DrawItem

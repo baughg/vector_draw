@@ -24,14 +24,15 @@ int Dimension2D::draw(PDF &pdf)
 		const int py{ cy + y };
 		for (int cx{ 0 }; cx < width; cx += step) {
 			int px{ cx + x };
-			if (get_reduced_dimension(px, py)) {
-				pdf.setFillColor(0, 255, 0);
+			const int bucket{ get_reduced_dimension(px, py) };
+
+			if(bucket == 0) {				
 				one_count++;
 			}
-			else {
-				pdf.setFillColor(0, 255, 255);
-			}
+			
+			RGB &colour = parameter_.bucket_colours[bucket];
 
+			pdf.setFillColor(colour.mRed, colour.mGreen, colour.mBlue);
 			pdf.fillRect(px, py, step, step);
 			pdf.drawRect(px, py, step, step);
 		}
