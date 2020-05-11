@@ -31,7 +31,7 @@ namespace drawing {
 		DrawItem(const DrawInfo &pos);
 		virtual int draw(PDF &pdf) = 0;
 	protected:
-		uint64_t get_reduced_dimension(const int &x, const int &y);
+		int get_reduced_dimension(const int &x, const int &y);
 		DrawInfo parameter_{};
 	};
 }
