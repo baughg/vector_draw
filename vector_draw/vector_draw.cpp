@@ -7,7 +7,7 @@
 int main()
 {
 	drawing::PDF pdf;
-	const int dim2Dwidth{ 256 };
+	const int dim2Dwidth{ 64 };
 	const int bits_per_dimension{ 2 };
 		
 	pdf.setFont(drawing::PDF::HELVETICA, 6);
