@@ -31,11 +31,8 @@ int DrawItem::get_reduced_dimension(const int &x, const int &y)
 			D /= dim_info.stride_y;
 		}
 
-		int phase{ d / parameter_.sub_dimension_buckets };
-		phase *= (parameter_.sub_dimension_buckets - 1);
-		phase += d;
 		point[d] = D;
-		dim_sum[phase % parameter_.sub_dimension_buckets] += D;
+		dim_sum[d % parameter_.sub_dimension_buckets] += D;
 	}
 	
 	int max_val{ dim_sum[0] };
