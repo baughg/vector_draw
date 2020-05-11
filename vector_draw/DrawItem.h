@@ -23,6 +23,7 @@ namespace drawing {
 		int sub_dimension_buckets{ 2 };
 		std::vector<DimensionInfo> dimension_stride;
 		std::vector<RGB> bucket_colours;
+		std::shared_ptr<std::vector<int>> histogram;
 	}DrawInfo;
 
 	class DrawItem

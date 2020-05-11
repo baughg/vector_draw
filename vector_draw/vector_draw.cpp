@@ -13,11 +13,12 @@ int main()
 	pdf.setFont(drawing::PDF::HELVETICA, 6);
 	pdf.setLineWidth(1);
 	const int dim_count{ 6 };
-	const int buckets{ 2 };
+	const int buckets{ 3 };
 
 	drawing::DrawInfo draw_info{50,50,50,50,
 		dim2Dwidth,dim2Dwidth,bits_per_dimension,dim_count,buckets };
-
+	draw_info.histogram = std::make_shared<std::vector<int>>();
+	draw_info.histogram->resize(buckets);
 	drawing::Dimension<dim_count> dim{ draw_info };
 	dim.set_dimension_stride();
 	int canvas_width{};
