@@ -12,6 +12,16 @@ namespace drawing {
 	}DimensionInfo;
 
 	typedef struct {
+		int get_bucket_combinations() {
+			int picks{ sub_dimension_buckets };
+			bucket_combinations = sub_dimension_buckets;
+			picks--;
+
+			while (picks > 1) {
+				bucket_combinations *= picks;
+				picks--;
+			}
+		}
 		int origin_x{};
 		int origin_y{};
 		int x{};
@@ -21,6 +31,7 @@ namespace drawing {
 		int bits_per_dimension{ 2 };
 		int dimensions{ 2 };
 		int sub_dimension_buckets{ 2 };
+		int bucket_combinations{};
 		std::vector<DimensionInfo> dimension_stride;
 		std::vector<RGB> bucket_colours;
 		std::shared_ptr<std::vector<int>> histogram;
