@@ -21,6 +21,8 @@ namespace drawing {
 				bucket_combinations *= picks;
 				picks--;
 			}
+
+			return bucket_combinations;
 		}
 		int origin_x{};
 		int origin_y{};
