@@ -11,6 +11,17 @@ namespace drawing {
 		int use_x{ 0 };
 	}DimensionInfo;
 
+	constexpr int log2(int num) {
+		
+		int lg{};
+
+		while ((1 << lg) < num) {
+			lg++;
+		}
+
+		return lg;
+	}
+
 	typedef struct {
 		int get_bucket_combinations() {
 			int picks{ sub_dimension_buckets };
@@ -33,6 +44,7 @@ namespace drawing {
 		int bits_per_dimension{ 2 };
 		int dimensions{ 2 };
 		int sub_dimension_buckets{ 2 };
+		int log2_sub_dimension_buckets{ 1 };
 		int bucket_combinations{};
 		std::vector<DimensionInfo> dimension_stride;
 		std::vector<RGB> bucket_colours;

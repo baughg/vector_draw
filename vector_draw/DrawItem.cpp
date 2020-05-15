@@ -1,5 +1,7 @@
 #include "DrawItem.h"
 #include <algorithm>
+#include <map>
+#include <deque>
 
 using namespace drawing;
 
@@ -15,6 +17,7 @@ int DrawItem::get_reduced_dimension(const int &x, const int &y)
 	const int yr{ y - parameter_.origin_y };
 
 	std::vector<int> dim_sum(parameter_.sub_dimension_buckets);
+	std::vector<int> dim_rank(parameter_.sub_dimension_buckets);
 	std::vector<int> point(parameter_.dimensions);
 
 	for (int d{ 0 }; d < parameter_.dimensions; ++d) {
@@ -36,12 +39,25 @@ int DrawItem::get_reduced_dimension(const int &x, const int &y)
 	}
 	
 	int max_val{ dim_sum[0] };
+	std::map<int, std::deque<int>> sort_map;
 
-	for (int b{1}; b < parameter_.sub_dimension_buckets; ++b) {
-		if (dim_sum[b] > max_val) {
-			bucket = b;
-			max_val = dim_sum[b];
+	for (int b{0}; b < parameter_.sub_dimension_buckets; ++b) {
+		sort_map[dim_sum[b]].push_back(b);	
+	}
+
+	auto end_it{ sort_map.end() };
+	end_it--;
+
+	const size_t map_size{ sort_map.size() };
+	int rank{};
+
+	for (size_t m{}; m < map_size; ++m) {
+		std::deque<int> &queue = (*end_it).second;
+		
+		for (auto it{ std::begin(queue) }; it != std::end(queue); it++) {
+			dim_rank[*it] = rank++;
 		}
+		end_it--;
 	}
 	return bucket;
 }

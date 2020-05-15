@@ -65,6 +65,7 @@ namespace drawing {
 	template<int d>
 	void Dimension<d>::set_dimension_stride() {
 		const int colours{ parameter_.get_bucket_combinations() };
+		parameter_.log2_sub_dimension_buckets = log2(colours);
 		parameter_.bucket_colours.resize(colours);
 		std::vector<RGB> anchor_colours{ RGB{255U,0U,0U}, RGB{0U,255U,0U} ,RGB{0U,0U,255U} };
 		
