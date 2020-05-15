@@ -1,6 +1,7 @@
 #pragma once
 #include "pdf.h"
 #include <vector>
+#include <map>
 
 namespace drawing {
 	typedef struct {
@@ -48,7 +49,7 @@ namespace drawing {
 		int bucket_combinations{};
 		std::vector<DimensionInfo> dimension_stride;
 		std::vector<RGB> bucket_colours;
-		std::shared_ptr<std::vector<int>> histogram;
+		std::shared_ptr<std::vector<int>> histogram;		
 	}DrawInfo;
 
 	class DrawItem

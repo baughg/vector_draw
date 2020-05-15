@@ -64,17 +64,28 @@ namespace drawing {
 
 	template<int d>
 	void Dimension<d>::set_dimension_stride() {
-		const int colours{ parameter_.get_bucket_combinations() };
+		int colours{ parameter_.get_bucket_combinations() };
 		parameter_.log2_sub_dimension_buckets = log2(colours);
+
+		const int col_m1{ parameter_.sub_dimension_buckets - 1 };
+
+		int col_max{ col_m1 };
+
+		for (int c{}; c < col_m1; ++c) {
+			col_max <<= parameter_.log2_sub_dimension_buckets;
+			col_max |= (parameter_.sub_dimension_buckets - 2 - c);
+		}
+
+		colours = col_max + 1;
 		parameter_.bucket_colours.resize(colours);
-		std::vector<RGB> anchor_colours{ RGB{255U,0U,0U}, RGB{0U,255U,0U} ,RGB{0U,0U,255U} };
+		std::vector<RGB> anchor_colours{ RGB{255U,255U,0U}, RGB{0U,255U,0U} ,RGB{0U,255U,255U} };
 		
 		std::vector<RGB> anchor_colour_new{ anchor_colours };
 
 		for (int a{}; a < 3; ++a) {
-			int red{ anchor_colours[a].mRed + anchor_colours[(a + 1) % 3].mRed };
-			int green{ anchor_colours[a].mGreen + anchor_colours[(a + 1) % 3].mGreen };
-			int blue{ anchor_colours[a].mBlue + anchor_colours[(a + 1) % 3].mBlue };
+			int red{ anchor_colours[a].mRed + anchor_colours[(a + 1) % 3].mRed + (rand() % 255) };
+			int green{ anchor_colours[a].mGreen + anchor_colours[(a + 1) % 3].mGreen +(rand() % 255) };
+			int blue{ anchor_colours[a].mBlue + anchor_colours[(a + 1) % 3].mBlue + (rand() % 255) };
 			red >>= 1; green >>= 1; blue >>= 1;
 
 			anchor_colour_new[a].mRed = static_cast<unsigned char>(red);
@@ -92,9 +103,9 @@ namespace drawing {
 				std::vector<RGB> anchor_colour_new{ anchor_colours };
 
 				for (int a{}; a < 3; ++a) {
-					int red{ anchor_colours[a].mRed + anchor_colours[(a + 1) % 3].mRed };
-					int green{ anchor_colours[a].mGreen + anchor_colours[(a + 1) % 3].mGreen };
-					int blue{ anchor_colours[a].mBlue + anchor_colours[(a + 1) % 3].mBlue };
+					int red{ anchor_colours[a].mRed + anchor_colours[(a + 1) % 3].mRed + (rand() % 255) };
+					int green{ anchor_colours[a].mGreen + anchor_colours[(a + 1) % 3].mGreen + (rand() % 255) };
+					int blue{ anchor_colours[a].mBlue + anchor_colours[(a + 1) % 3].mBlue + (rand() % 255) };
 					red >>= 1; green >>= 1; blue >>= 1;
 
 					anchor_colour_new[a].mRed = static_cast<unsigned char>(red);

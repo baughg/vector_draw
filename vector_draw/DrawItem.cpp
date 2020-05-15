@@ -59,5 +59,12 @@ int DrawItem::get_reduced_dimension(const int &x, const int &y)
 		}
 		end_it--;
 	}
+	
+	for (int b{}; b < parameter_.sub_dimension_buckets; ++b) {
+		bucket |= dim_rank[b];
+		bucket <<= parameter_.log2_sub_dimension_buckets;
+	}
+
+	bucket >>= parameter_.log2_sub_dimension_buckets;
 	return bucket;
 }
