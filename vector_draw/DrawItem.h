@@ -49,7 +49,7 @@ namespace drawing {
 		int bucket_combinations{};
 		std::vector<DimensionInfo> dimension_stride;
 		std::vector<RGB> bucket_colours;
-		std::shared_ptr<std::vector<int>> histogram;		
+		std::shared_ptr<std::map<int,int>> histogram;		
 	}DrawInfo;
 
 	class DrawItem

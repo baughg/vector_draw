@@ -25,7 +25,7 @@ int Dimension2D::draw(PDF &pdf)
 		for (int cx{ 0 }; cx < width; cx += step) {
 			int px{ cx + x };
 			const int bucket{ get_reduced_dimension(px, py) };
-			//parameter_.histogram->at(bucket)++;
+			parameter_.histogram->operator[](bucket)++;
 			if(bucket == 0) {				
 				one_count++;
 			}
